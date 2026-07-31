@@ -9,19 +9,19 @@ const SITE = {
   brand: "Koazee",
   brandSub: "Craft Office",
   instagramUrl: "https://www.instagram.com/koazee.craft.office",
-  whatsappUrl: "https://chat.whatsapp.com/CgtjeiTfnfK0BlNwN8Ezcl",
+  whatsappUrl: "https://chat.whatsapp.com/CgtjeiTfnfK0BlNwN8EzcI",
   youtubeUrl: "https://youtube.com/@koazeecraftoffice?si=l2yr1ZJjiKgdk51U",
   whatsappMembers: "179+",
 
   /* Where "Customize yours" buttons on gift cards should send people.
-     Change to SITE.instagramUrl if you'd rather orders start on Instagram. */
-  orderLink: "whatsappUrl",
+     Change to "whatsappUrl" if you'd rather orders start on WhatsApp. */
+  orderLink: "instagramUrl",
 
   /* Used by the "Follow us" section, the footer, and the floating
      chat button. Add/remove/reorder freely — icon is chosen by "type". */
   socialChannels: [
     { type: "instagram", label: "Instagram", handle: "@koazee.craft.office", url: "https://www.instagram.com/koazee.craft.office" },
-    { type: "whatsapp", label: "WhatsApp group", handle: "179+ members", url: "https://chat.whatsapp.com/CgtjeiTfnfK0BlNwN8Ezcl" },
+    { type: "whatsapp", label: "WhatsApp group", handle: "179+ members", url: "https://chat.whatsapp.com/CgtjeiTfnfK0BlNwN8EzcI" },
     { type: "youtube", label: "YouTube", handle: "@koazeecraftoffice", url: "https://youtube.com/@koazeecraftoffice?si=l2yr1ZJjiKgdk51U" }
   ],
 
@@ -109,3 +109,11 @@ const SITE = {
     { q: "How long does an order take?", a: "It depends on the piece and how customized it is. Message us with what you have in mind and we'll give you a timeline." }
   ]
 };
+
+// Keep socialChannels always in sync with the single URLs above —
+// edit whatsappUrl / instagramUrl / youtubeUrl once, everywhere updates.
+SITE.socialChannels.forEach(ch => {
+  if (ch.type === "whatsapp") ch.url = SITE.whatsappUrl;
+  if (ch.type === "instagram") ch.url = SITE.instagramUrl;
+  if (ch.type === "youtube") ch.url = SITE.youtubeUrl;
+});
