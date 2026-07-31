@@ -22,9 +22,28 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("#brand-sub, #footer-brand-sub").forEach(el => el.textContent = SITE.brandSub);
 
   // ---- Static CTA links around the page ----
-  document.querySelectorAll("#nav-cta").forEach(el => el.href = orderUrl);
+  document.querySelectorAll("#nav-cta, #mobile-nav-cta").forEach(el => el.href = orderUrl);
   document.querySelectorAll("#hero-instagram, #story-instagram, #cta-instagram")
     .forEach(el => el.href = SITE.instagramUrl);
+
+  // ---- Mobile menu toggle ----
+  const navToggle = document.getElementById("nav-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  if (navToggle && mobileMenu) {
+    const closeMenu = () => {
+      mobileMenu.classList.remove("open");
+      navToggle.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("menu-open");
+    };
+    navToggle.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.toggle("open");
+      navToggle.classList.toggle("open", isOpen);
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+      document.body.classList.toggle("menu-open", isOpen);
+    });
+    mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+  }
 
   // Floating WhatsApp button (bottom-right, all pages)
   const floatBtn = document.getElementById("floating-whatsapp");
