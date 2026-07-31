@@ -9,13 +9,15 @@ const SITE = {
   brand: "Koazee",
   brandSub: "Craft Office",
   instagramUrl: "https://www.instagram.com/koazee.craft.office",
+  instagramUsername: "koazee.craft.office", // used to build the direct-chat link below
   whatsappUrl: "https://chat.whatsapp.com/CgtjeiTfnfK0BlNwN8EzcI",
   youtubeUrl: "https://youtube.com/@koazeecraftoffice?si=l2yr1ZJjiKgdk51U",
   whatsappMembers: "179+",
 
   /* Where "Customize yours" buttons on gift cards should send people.
-     Change to "whatsappUrl" if you'd rather orders start on WhatsApp. */
-  orderLink: "instagramUrl",
+     Options: "instagramDmUrl" (opens Instagram chat directly, not just the
+     profile), "instagramUrl" (profile page), or "whatsappUrl". */
+  orderLink: "instagramDmUrl",
 
   /* Used by the "Follow us" section, the footer, and the floating
      chat button. Add/remove/reorder freely — icon is chosen by "type". */
@@ -112,6 +114,9 @@ const SITE = {
 
 // Keep socialChannels always in sync with the single URLs above —
 // edit whatsappUrl / instagramUrl / youtubeUrl once, everywhere updates.
+// Direct Instagram chat link (opens the DM thread, not just the profile)
+SITE.instagramDmUrl = `https://ig.me/m/${SITE.instagramUsername}`;
+
 SITE.socialChannels.forEach(ch => {
   if (ch.type === "whatsapp") ch.url = SITE.whatsappUrl;
   if (ch.type === "instagram") ch.url = SITE.instagramUrl;

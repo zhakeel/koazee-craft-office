@@ -85,11 +85,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const words = [...SITE.marqueeWords, ...SITE.marqueeWords]; // duplicate for seamless loop
   track.innerHTML = words.map(w => `<span>${w}</span>`).join("");
 
-  // ---- Gift cards (each one links straight to WhatsApp/Instagram) ----
+  // ---- Gift cards (each one links straight to WhatsApp/Instagram,
+  //      and copies the gift name so it can be pasted into the chat) ----
   const grid = document.getElementById("cat-grid");
   SITE.gifts.forEach(g => {
+    const message = `Hi! I'd like to customize this: ${g.title} (${g.tag.replace(/[^\w\s]/gi, "").trim()})`;
     grid.insertAdjacentHTML("beforeend", `
-      <a class="cat-card reveal" href="${orderUrl}" target="_blank" rel="noopener">
+      <a class="cat-card reveal" href="${orderUrl}" target="_blank" rel="noopener" data-copy="${message.replace(/"/g, "&quot;")}">
         <div class="img-wrap"><img src="${g.image}" alt="${g.title}" loading="lazy"></div>
         <div class="cat-tag">${g.tag}</div>
         <div class="cat-body">
@@ -99,6 +101,27 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </a>
     `);
+  });
+
+  // Copy the gift name to the clipboard on click so it's easy to paste
+  // into whichever chat opens (Instagram/WhatsApp don't support pre-filling
+  // a message with an attached photo from an outside link, so this is the
+  // closest practical alternative).
+  const toast = document.getElementById("toast");
+  document.querySelectorAll(".cat-card[data-copy]").forEach(card => {
+    card.addEventListener("click", () => {
+      const text = card.getAttribute("data-copy");
+      if (navigator.clipboard && text) {
+        navigator.clipboard.writeText(text).then(() => {
+          if (toast) {
+            toast.textContent = "Copied! Paste this in the chat so we know which design you mean 💌";
+            toast.classList.add("show");
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 3200);
+          }
+        }).catch(() => {});
+      }
+    });
   });
 
   // ---- Process steps ----
